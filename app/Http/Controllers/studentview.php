@@ -59,7 +59,8 @@ class studentview extends Controller
      */
     public function edit($id)
     {
-        //
+        $studentAcc=student::find($id);
+        return redirect('/studentview')->with('error','Student Accept successfully');
     }
 
     /**
@@ -82,6 +83,9 @@ class studentview extends Controller
      */
     public function destroy($id)
     {
-        //
+        $studentdel=student::find($id);
+        $studentdel->delete();
+       
+        return redirect('/studentview')->with('success','Data Reject successfully');
     }
 }

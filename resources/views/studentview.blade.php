@@ -9,7 +9,16 @@
     <title>Document</title>
 </head>
 <body>
-
+@if(\Session::has('error'))
+    <div class="alert alert-success">
+        <p> {{ \Session::get('error')}}</p>
+    </div>
+    @endif
+@if(\Session::has('success'))
+    <div class="alert alert-success">
+        <p> {{ \Session::get('success')}}</p>
+    </div>
+    @endif
 <div class="container">
     <h1>Student Detail Table</h1>
     <table class="table table-bordered table-striped table-dark">
@@ -22,7 +31,8 @@
       <th scope="col">Std_Address</th>
       <th scope="col">Std_Phoneno</th>
       <th scope="col">Std_Department</th>
-      <th scope="col">Action</th>
+      <th scope="col">Accept</th>
+      <th scope="col">Reject</th>
     </tr>
   </thead>
   <tbody>
@@ -36,8 +46,19 @@
       <td>{{$studentdata -> std_phoneno}}</td>
       <td>{{$studentdata->std_department}}</td>
       <td>
-          <a href="" class="btn btn-success">Accept</a>
-          <a href="" class="btn btn-success">Reject</a>
+      <form action="{{ action('App\Http\Controllers\studentview@edit', $studentdata['id'])}}" method="get">
+              {{csrf_field() }}
+              <input type="hidden" name="_method" value="ACCEPT">
+              <button type="submit" name="submit" class="btn btn-success">Accept</button>
+</form>
+</td>
+<td>
+          <form action="{{ action('App\Http\Controllers\studentview@destroy', $studentdata['id'])}}" method="post">
+              {{csrf_field() }}
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" name="submit" class="btn btn-danger">Reject</button>
+</form>
+
 </td>
      </tr>
      @endforeach
